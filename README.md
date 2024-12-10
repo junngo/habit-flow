@@ -5,7 +5,7 @@ HabitFlow is a blockchain-based habit management system that helps users build c
 
 ```
 habit-flow/
-├── backend/       # Node.js backend server
+├── backend/       # NestJS backend server
 ├── frontend/      # Next.js frontend web application
 ├── blockchain/    # Solana smart contract code
 ├── shared/        # Shared utilities, types, and constants
@@ -15,7 +15,7 @@ habit-flow/
 ### 1. backend/
 REST API server for managing data and blockchain interactions.
 Handles check-in records, rewards distribution, and user data.
-Technologies: Node.js, Express, MongoDB.
+Technologies: Node.js, NestJS, MongoDB.
 
 ### 2. frontend/
 Web application providing the user interface for HabitFlow.
@@ -77,3 +77,28 @@ Includes API clients and token utilities.
 - Add leaderboards and social features to foster collaboration and competition.
 5. Mobile App Launch:
 - Develop and release iOS and Android apps.
+
+
+# 🌱 Getting Started
+
+1. Clone the Repository
+
+2. Set Up Each Directory
+
+## Backend
+
+1. Navigate to the backend/ directory:
+```
+cd backend
+```
+
+
+2. Install dependencies:
+```
+npm install
+```
+
+3. Start the server:
+```
+pnpm run start:dev
+```
