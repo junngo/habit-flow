@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  habit-flow-db:
+    image: mysql:8.0
+    container_name: habit-flow-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: habitflow_root_password
+      MYSQL_DATABASE: habitflow_db
+      MYSQL_USER: habitflow_user
+      MYSQL_PASSWORD: habitflow_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - habit-flow-db-data:/var/lib/mysql
+    networks:
+      - habit-flow-network
+
+  adminer:
+    image: adminer:latest
+    container_name: habit-flow-adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - habit-flow-db
+    networks:
+      - habit-flow-network
+
+volumes:
+  habit-flow-db-data:
+
+networks:
+  habit-flow-network:
+    driver: bridge
