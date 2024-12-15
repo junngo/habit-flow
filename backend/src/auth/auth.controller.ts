@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -16,9 +16,9 @@ export class AuthController {
   async sginin(@Body() loginUserDto: LoginUserDto) {
     const user = await this.authService.validateUser(loginUserDto.email, loginUserDto.password);
     if (!user) {
-      throw new BadRequestException("Invalid email or password");
+      throw new UnauthorizedException('Invalid email or password');
     }
 
-    return user;
+    return { message: "Login Successful", user };
   }
 }

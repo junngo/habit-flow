@@ -37,12 +37,18 @@ export class AuthService {
   }
 
   async validateUser(email: string, password: string): Promise<Users | null> {
+    // 존재하는 회원인지 확인
     const user = await this.usersService.findByEmail(email);
     if (!user) {
       return null;
     }
 
-    // 비밀번호 검증은 이후 단계에서 추가
+    // 비밀번호 검증
+    const isPaswordValid = await bcrypt.compare(password, user.password);
+    if (!isPaswordValid) {
+      return null;
+    }
+
     return user;
   }
 }
