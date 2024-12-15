@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { Users } from './users/entities/users.entity';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { Users } from './users/entities/users.entity';
       entities: [Users],
       synchronize: true, // 개발 환경에서만 사용. 운영 환경에서는 false로 설정.
     }),
+    ConfigModule.forRoot({ isGlobal: true }),
     AuthModule,
     UsersModule,
   ],

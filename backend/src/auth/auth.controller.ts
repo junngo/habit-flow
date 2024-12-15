@@ -19,6 +19,6 @@ export class AuthController {
       throw new UnauthorizedException('Invalid email or password');
     }
 
-    return { message: "Login Successful", user };
+    return this.authService.signin(user);
   }
 }

@@ -5,13 +5,15 @@ import * as bcrypt from 'bcrypt';
 import { Users } from 'src/users/entities/users.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(Users)
     private readonly usersRepository: Repository<Users>,
-    private readonly usersService: UsersService
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService
   ) { }
 
   async signup(createUserDto: CreateUserDto): Promise<Users> {
@@ -50,5 +52,11 @@ export class AuthService {
     }
 
     return user;
+  }
+
+  async signin(user: Users): Promise<{ accessToken: string }> {
+    const payload = { sub: user.id, email: user.email };
+    const accessToken = this.jwtService.sign(payload);
+    return { accessToken };
   }
 }
