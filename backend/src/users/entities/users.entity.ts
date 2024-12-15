@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('users') // 데이터베이스 테이블 이름
-export class User {
+export class Users {
   @PrimaryGeneratedColumn()
   id: number; // 기본 키
 
