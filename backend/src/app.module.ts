@@ -4,7 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
-import { User } from './users/entities/user.entity';
+import { Users } from './users/entities/users.entity';
 
 @Module({
   imports: [
@@ -15,7 +15,7 @@ import { User } from './users/entities/user.entity';
       username: 'habitflow_user',
       password: 'habitflow_password',
       database: 'habitflow_db',
-      entities: [User],
+      entities: [Users],
       synchronize: true, // 개발 환경에서만 사용. 운영 환경에서는 false로 설정.
     }),
     AuthModule,
