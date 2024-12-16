@@ -58,7 +58,7 @@ describe('AuthService', () => {
       password: 'UserPlainPassword',
     };
 
-    // Mock: 중복 이메일 확인
+    // Mock 세팅
     usersRepository.findOne.mockResolvedValue(null);
     usersRepository.create.mockReturnValue({
       email: userDto.email,
