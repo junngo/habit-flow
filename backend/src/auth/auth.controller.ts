@@ -10,7 +10,7 @@ export class AuthController {
   @UseGuards(FirebaseAuthGuard)
   @Post('signup')
   async signup(@Req() req: Request) {
-    const { email, username } = req.user!;
-    return this.authService.validateOrCreateUser(email, username);
+    const { email, username, userId: external_uid } = req.user!;
+    return this.authService.validateOrCreateUser(email, username, external_uid);
   }
 }
