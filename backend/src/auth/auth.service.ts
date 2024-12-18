@@ -1,62 +1,26 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
 import { Users } from 'src/users/entities/users.entity';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UsersService } from 'src/users/users.service';
-import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(Users)
-    private readonly usersRepository: Repository<Users>,
-    private readonly usersService: UsersService,
-    private readonly jwtService: JwtService
+    private readonly usersRepository: Repository<Users>
   ) { }
 
-  async signup(createUserDto: CreateUserDto): Promise<Users> {
-    const { email, password, username } = createUserDto;
+  async validateOrCreateUser(email: string, username: string): Promise<Users> {
 
-    // 이메일 중복 확인
-    const existingUser = await this.usersRepository.findOne({ where: { email } });
-    if (existingUser) {
-      throw new BadRequestException('Email already in use');
-    }
+    // 이메일로 유저 찾기
+    let user = await this.usersRepository.findOne({ where: { email } });
 
-    // 비밀번호 해시화
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // 유저 생성 및 저장
-    const newUser = this.usersRepository.create({
-      email,
-      password: hashedPassword,
-      username,
-    });
-
-    return await this.usersRepository.save(newUser);
-  }
-
-  async validateUser(email: string, password: string): Promise<Users | null> {
-    // 존재하는 회원인지 확인
-    const user = await this.usersService.findByEmail(email);
     if (!user) {
-      return null;
-    }
-
-    // 비밀번호 검증
-    const isPaswordValid = await bcrypt.compare(password, user.password);
-    if (!isPaswordValid) {
-      return null;
+      // 유저가 없다면 새로 생성
+      user = this.usersRepository.create({ email, username });
+      user = await this.usersRepository.save(user);
     }
 
     return user;
-  }
-
-  async signin(user: Users): Promise<{ accessToken: string }> {
-    const payload = { sub: user.id, email: user.email };
-    const accessToken = this.jwtService.sign(payload);
-    return { accessToken };
   }
 }
