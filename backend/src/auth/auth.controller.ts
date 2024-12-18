@@ -1,24 +1,16 @@
-import { Body, Controller, Post, UnauthorizedException } from '@nestjs/common';
+import { Controller, Post, UseGuards, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { LoginUserDto } from './dto/login-user.dto';
+import { FirebaseAuthGuard } from './guards/firebase-auth.guard';
+import { Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) { }
 
+  @UseGuards(FirebaseAuthGuard)
   @Post('signup')
-  async signup(@Body() createUserDto: CreateUserDto) {
-    return this.authService.signup(createUserDto);
-  }
-
-  @Post('signin')
-  async sginin(@Body() loginUserDto: LoginUserDto) {
-    const user = await this.authService.validateUser(loginUserDto.email, loginUserDto.password);
-    if (!user) {
-      throw new UnauthorizedException('Invalid email or password');
-    }
-
-    return this.authService.signin(user);
+  async signup(@Req() req: Request) {
+    const { email, username } = req.user!;
+    return this.authService.validateOrCreateUser(email, username);
   }
 }
