@@ -9,6 +9,9 @@ export class Users {
   email: string;              // 사용자 이메일 (고유)
 
   @Column()
+  external_uid: string;       // 외부 ID(UID) (구글)
+
+  @Column()
   username: string;           // 사용자 이름
 
   @Column({ nullable: true })

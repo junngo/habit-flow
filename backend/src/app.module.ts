@@ -7,6 +7,8 @@ import { UsersModule } from './users/users.module';
 import { Users } from './users/entities/users.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { initializeFirebase } from './auth/firebase-admin';
+import { HabitsModule } from './habits/habits.module';
+import { Habits } from './habits/entities/habits.entity';
 
 @Module({
   imports: [
@@ -17,12 +19,13 @@ import { initializeFirebase } from './auth/firebase-admin';
       username: 'habitflow_user',
       password: 'habitflow_password',
       database: 'habitflow_db',
-      entities: [Users],
+      entities: [Users, Habits],
       synchronize: true, // 개발 환경에서만 사용. 운영 환경에서는 false로 설정.
     }),
     ConfigModule.forRoot({ isGlobal: true }),
     AuthModule,
     UsersModule,
+    HabitsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -10,14 +10,14 @@ export class AuthService {
     private readonly usersRepository: Repository<Users>
   ) { }
 
-  async validateOrCreateUser(email: string, username: string): Promise<Users> {
+  async validateOrCreateUser(email: string, username: string, external_uid: string): Promise<Users> {
 
     // 이메일로 유저 찾기
     let user = await this.usersRepository.findOne({ where: { email } });
 
     if (!user) {
       // 유저가 없다면 새로 생성
-      user = this.usersRepository.create({ email, username });
+      user = this.usersRepository.create({ email, username, external_uid });
       user = await this.usersRepository.save(user);
     }
 
