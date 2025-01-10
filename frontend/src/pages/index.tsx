@@ -1,8 +1,13 @@
 
 import { useSession, signIn, signOut } from 'next-auth/react';
+import { useEffect } from 'react';
 
 const Home = () => {
   const { data: session } = useSession();
+
+  useEffect(() => {
+    console.log("token: ", session);
+  }, [session])
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">

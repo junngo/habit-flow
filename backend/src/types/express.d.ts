@@ -1,4 +1,5 @@
 import { Request } from 'express';
+import { DateTime } from 'luxon';
 
 declare module 'express' {
   export interface Request {
@@ -8,4 +9,8 @@ declare module 'express' {
       username: string; // User username
     };
   }
+}
+
+declare module 'luxon' {
+  const DateTime: any;
 }
